@@ -90,4 +90,14 @@ public class DictionaryCreationTests extends TestBase {
         AddDictionary(dictionaryData, "Create dictionary with name containing 2 spaces in a row");
     }
 
+    @Test
+    public void AddDictionaryWithLineBreak() {
+        DictionaryData dictionaryData = new DictionaryData();
+        dictionaryData.setName("name contains line break\n" + RandomStringUtils.randomAlphanumeric(10))
+                .setDescription(RandomStringUtils.randomAlphanumeric(100))
+                .setExpectedResult("OK");
+
+        AddDictionary(dictionaryData, "Create dictionary with name containing line break");
+    }
+
 }
