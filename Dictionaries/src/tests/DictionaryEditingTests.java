@@ -33,12 +33,12 @@ public class DictionaryEditingTests extends TestBase {
         app.getNavigationHelper().goToDictionariesPage();
 
         app.getDictionaryHelper().goToDictionaryPage(dictionaryData);
-        app.getDictionaryHelper().editDictionaryName(dictionaryData, "newdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd" + dictionaryData.getName());
+        app.getDictionaryHelper().editDictionaryName(dictionaryData, "new" + dictionaryData.getName());
 
         List<DictionaryData> dictionaryDataList2 = app.getDictionaryHelper().getDictionaries();
 
-        Set<DictionaryData> dictionaryDataSet1 = new HashSet<DictionaryData>(dictionaryDataList1);
-        Set<DictionaryData> dictionaryDataSet2 = new HashSet<>(dictionaryDataList1);
+        Set<DictionaryData> dictionaryDataSet1 = new HashSet<>(dictionaryDataList1);
+        Set<DictionaryData> dictionaryDataSet2 = new HashSet<>(dictionaryDataList2);
 
         dictionaryDataSet2.removeAll(dictionaryDataSet1);
 
