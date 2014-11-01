@@ -22,12 +22,14 @@ public class NavigationHelper extends BaseHelper {
 
     public void goToGroupsPage() {
         driver.get(manager.baseUrl);
-        if (isElementPresent(By.cssSelector("button.btn-login"))) {
+        if (isElementPresent(By.cssSelector(locators.getProperty("loginButton")))) {
             LoginData loginData = new LoginData();
             loginData.setLogin(manager.properties.getProperty("login"))
                     .setPass(manager.properties.getProperty("pass"));
 
             assertEquals(manager.getLoginHelper().doLogin(loginData),"OK","Login with default params failed");
+        } else {
+            //goToGroupsPage();
         }
     }
 

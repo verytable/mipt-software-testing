@@ -6,7 +6,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
+import java.io.File;
+import java.io.FileReader;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by arseny on 22.10.14.
@@ -16,9 +19,17 @@ public class BaseHelper {
     protected AppManager manager;
     protected WebDriver driver;
 
+    protected Properties locators = new Properties();
+
     public BaseHelper(AppManager manager) {
         this.manager = manager;
         this.driver = manager.driver;
+        String locatorsFile = "locators.properties";
+        try {
+            locators.load(new FileReader(new File(locatorsFile)));
+        } catch (Exception ex) {
+            System.err.println("problem with properties file.");
+        }
     }
 
     protected void click(By by) {

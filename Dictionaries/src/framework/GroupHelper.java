@@ -13,12 +13,11 @@ public class GroupHelper extends BaseHelper {
     }
 
     public String createGroup(GroupData groupData) {
-        click(By.cssSelector("button.btn.flat"));
-        type(By.id("groups-add-input-name"), groupData.getName());
-        type(By.id("groups-add-input-description"), groupData.getDescription());
-        click(By.id("groups-add-button-submit"));
+        click(By.cssSelector(locators.getProperty("addGroupButton")));
+        type(By.id(locators.getProperty("addGroupNameField")), groupData.getName());
+        type(By.id(locators.getProperty("addGroupDescriptionField")), groupData.getDescription());
+        click(By.id(locators.getProperty("addGroupProceedButton")));
 
-        // TODO: check that returns error message or empty string
-        return getText(By.id("groups-add-help-name"));
+        return getText(By.id(locators.getProperty("addGroupErrorField")));
     }
 }

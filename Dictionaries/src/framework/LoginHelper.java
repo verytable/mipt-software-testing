@@ -14,14 +14,14 @@ public class LoginHelper extends BaseHelper {
 
     public String doLogin(LoginData loginData) {
         manager.getNavigationHelper().gotoLoginPage();
-        type(By.id("j_username"), loginData.getLogin());
-        type(By.id("j_password"), loginData.getPass());
-        click(By.cssSelector("button.btn-login"));
+        type(By.id(locators.getProperty("loginField")), loginData.getLogin());
+        type(By.id(locators.getProperty("passwordField")), loginData.getPass());
+        click(By.cssSelector(locators.getProperty("loginButton")));
 
-        if (isElementPresent(By.id("header-link-logout"))) {
+        if (isElementPresent(By.id(locators.getProperty("successLoginConfirmationElement")))) {
             return "OK";
         }
 
-        return getText(By.id("div.text-error"));
+        return getText(By.id(locators.getProperty("loginErrorField")));
     }
 }

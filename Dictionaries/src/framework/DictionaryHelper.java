@@ -39,15 +39,15 @@ public class DictionaryHelper extends BaseHelper {
 
     public List<DictionaryData> listDictionaries() {
         try {
-            List<WebElement> elements = manager.wait.until(visibilityOfElementsLocated(By.xpath("/html/body/section/div/section[1]/table/tbody/tr")));
+            List<WebElement> elements = manager.wait.until(visibilityOfElementsLocated(By.xpath(locators.getProperty("dictionariesTableRows"))));
 
             List<DictionaryData> dictionaryDataList = new ArrayList<>();
             if (!(elements.size() == 1 && elements.get(0).getText().equals("No dictionaries found"))) {
                 for (WebElement element : elements) {
                     DictionaryData dictionaryData = new DictionaryData();
                     dictionaryDataList.add(dictionaryData
-                            .setName(element.findElement(By.className("cell-value-inner")).getText())
-                            .setDescription(element.findElement(By.cssSelector("span.edit")).getText()));
+                            .setName(element.findElement(By.className(locators.getProperty("dictionaryNameColumn"))).getText())
+                            .setDescription(element.findElement(By.cssSelector(locators.getProperty("dictionaryDescriptionColumn"))).getText()));
                 }
             }
             return dictionaryDataList;
@@ -57,20 +57,20 @@ public class DictionaryHelper extends BaseHelper {
     }
 
     public String createDictionary(DictionaryData dictionaryData) {
-        manager.wait.until(visibilityOfElementLocated(By.xpath("//button[contains(text(),'Add dictionary')]")));
-        click(By.xpath("//button[contains(text(),'Add dictionary')]"));
+        manager.wait.until(visibilityOfElementLocated(By.xpath(locators.getProperty("addDictionaryButton"))));
+        click(By.xpath(locators.getProperty("addDictionaryButton")));
 
-        type(By.id("dictionaries-add-name"), dictionaryData.getName());
-        type(By.id("dictionaries-add-description"), dictionaryData.getDescription());
+        type(By.id(locators.getProperty("dictionaryAddNameField")), dictionaryData.getName());
+        type(By.id(locators.getProperty("dictionaryAddDescriptionField")), dictionaryData.getDescription());
 
-        manager.wait.until(visibilityOfElementLocated(By.id("dictionaries-add-button-submit")));
+        manager.wait.until(visibilityOfElementLocated(By.id(locators.getProperty("createDictionaryButton"))));
         click(By.id("dictionaries-add-button-submit"));
 
-        if (isElementPresent(By.id("dictionaries-add-button-submit"))) {
-            manager.wait.until(visibilityOfElementLocated(By.className("help-block")));
+        if (isElementPresent(By.id(locators.getProperty("createDictionaryButton")))) {
+            manager.wait.until(visibilityOfElementLocated(By.className(locators.getProperty("addDictionaryErrorField"))));
         }
 
-        return getText(By.className("help-block"));
+        return getText(By.className(locators.getProperty("addDictionaryErrorField")));
     }
 
     public void createSomeDictionaries(int numberOfDictionaries) {
@@ -96,13 +96,13 @@ public class DictionaryHelper extends BaseHelper {
     }
 
     public void removeNthTopDictionary(int n) {
-        String deletingElementXPath = String.format("/html/body/section/div/section[1]/table/tbody/tr[%d]/td[1]", n);
+        String deletingElementXPath = String.format(locators.getProperty("deletingDictionaryRow"), n);
         try {
             WebElement deletingElement = manager.wait.until(visibilityOfElementLocated(By.xpath(deletingElementXPath)));
             Actions action = new Actions(driver);
             action.moveToElement(deletingElement).perform();
-            click(By.xpath(deletingElementXPath + "/span/i"));
-            click(By.className("btn-primary"));
+            click(By.xpath(String.format(locators.getProperty("deletingDictionaryXSymbol"), n)));
+            click(By.className(locators.getProperty("deletingDictionaryConfirmationButton")));
         } catch (StaleElementReferenceException ex) {
             removeNthTopDictionary(n);
         }
@@ -116,11 +116,11 @@ public class DictionaryHelper extends BaseHelper {
     }
 
     public int getNumberOfPages() {
-        Boolean isMoreThanOnePage = isElementPresent(By.className("paginator"));
+        Boolean isMoreThanOnePage = isElementPresent(By.className(locators.getProperty("pagingsClass")));
 
         if (isMoreThanOnePage) {
-            List<WebElement> pagings = driver.findElement(By.className("paginator"))
-                    .findElements(By.xpath("/html/body/section/div/section[2]/div/ul/li"));
+            List<WebElement> pagings = driver.findElement(By.className(locators.getProperty("pagingsClass")))
+                    .findElements(By.xpath(locators.getProperty("pagings")));
 
             if (pagings.size() < 2) {
                 return 1;
@@ -138,8 +138,8 @@ public class DictionaryHelper extends BaseHelper {
             if (dictionaryDataList.contains(dictionaryData)) {
                 return page;
             }
-            if (isElementPresent(By.className("next"))) {
-                click(By.className("next"));
+            if (isElementPresent(By.className(locators.getProperty("nextButton")))) {
+                click(By.className(locators.getProperty("nextButton")));
             }
         }
         return -1;
@@ -157,19 +157,16 @@ public class DictionaryHelper extends BaseHelper {
     }
 
     public void editNthDictionaryName(int n, String newName) {
-        String editingElementXPath = String.format("/html/body/section/div/section[1]/table/tbody/tr[%d]/td[2]", n);
+        String editingElementXPath = String.format(locators.getProperty("editingDictionaryRow"), n);
 
         try {
             WebElement editingElement = manager.wait.until(visibilityOfElementLocated(By.xpath(editingElementXPath)));
             Actions action = new Actions(driver);
             action.moveToElement(editingElement).perform();
-            click(By.xpath(editingElementXPath + "/div/span/i"));
+            click(By.xpath(String.format(locators.getProperty("editingDictionaryPencilSymbol"), n)));
 
-            action.moveToElement(editingElement).click().perform();
-            action.moveToElement(editingElement).click().sendKeys("HELLO");
-
-
-            System.err.println(driver.findElement(By.cssSelector("div.cell-value.iconed")));
+            manager.driver.findElement(By.cssSelector(locators.getProperty("editingDictionaryNameField"))).clear();
+            manager.driver.findElement(By.cssSelector(locators.getProperty("editingDictionaryNameField"))).sendKeys(newName);
 
         } catch (StaleElementReferenceException ex) {
             removeNthTopDictionary(n);
