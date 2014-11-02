@@ -48,6 +48,35 @@ public class DictionaryEditingTests extends TestBase {
     }
 
     @Test
+    public void EditNameWithEmptyValue() {
+        app.getNavigationHelper().goToDictionariesPage();
+
+        DictionaryData dictionaryData = new DictionaryData();
+        dictionaryData.setName(RandomStringUtils.randomAlphanumeric(20))
+                .setDescription(RandomStringUtils.randomAlphanumeric(50))
+                .setExpectedResult("OK");
+
+        app.getNavigationHelper().goToDictionariesPage();
+
+        app.getDictionaryHelper().createDictionary(dictionaryData);
+
+        List<DictionaryData> dictionaryDataList1 = app.getDictionaryHelper().getDictionaries();
+
+        app.getNavigationHelper().goToDictionariesPage();
+
+        app.getDictionaryHelper().goToDictionaryPage(dictionaryData);
+        app.getDictionaryHelper().editDictionaryName(dictionaryData, "");
+
+        List<DictionaryData> dictionaryDataList2 = app.getDictionaryHelper().getDictionaries();
+
+        Collections.sort(dictionaryDataList1);
+        Collections.sort(dictionaryDataList2);
+
+        assertEquals(dictionaryDataList1, dictionaryDataList2, "Editing name with empty value");
+
+    }
+
+    @Test
     public void EditNameWithExistingValue() {
         app.getNavigationHelper().goToDictionariesPage();
 
@@ -102,6 +131,36 @@ public class DictionaryEditingTests extends TestBase {
         assertEquals(dictionaryDataSet2.iterator().next().getName(),
                 newLongName,
                 "Editing with unique long name");
+    }
+
+    @Test
+    public void EditDescriptionWithLongValue() {
+        app.getNavigationHelper().goToDictionariesPage();
+
+        DictionaryData dictionaryData = new DictionaryData();
+        dictionaryData.setName(RandomStringUtils.randomAlphanumeric(20))
+                .setDescription(RandomStringUtils.randomAlphanumeric(50))
+                .setExpectedResult("OK");
+
+        app.getDictionaryHelper().createDictionary(dictionaryData);
+
+        List<DictionaryData> dictionaryDataList1 = app.getDictionaryHelper().getDictionaries();
+
+        app.getNavigationHelper().goToDictionariesPage();
+
+        String newLongDescription = RandomStringUtils.randomAlphanumeric(10000);
+        app.getDictionaryHelper().editDictionaryDescription(dictionaryData, newLongDescription);
+
+        List<DictionaryData> dictionaryDataList2 = app.getDictionaryHelper().getDictionaries();
+
+        Set<DictionaryData> dictionaryDataSet1 = new HashSet<>(dictionaryDataList1);
+        Set<DictionaryData> dictionaryDataSet2 = new HashSet<>(dictionaryDataList2);
+
+        dictionaryDataSet2.removeAll(dictionaryDataSet1);
+
+        assertEquals(dictionaryDataSet2.iterator().next().getDescription(),
+                newLongDescription,
+                "Editing with unique long description");
     }
 
     @Test
