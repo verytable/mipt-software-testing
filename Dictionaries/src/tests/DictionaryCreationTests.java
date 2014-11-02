@@ -91,13 +91,53 @@ public class DictionaryCreationTests extends TestBase {
     }
 
     @Test
-    public void AddDictionaryWithLineBreak() {
+    public void AddDictionaryWithCoupleOfSpacesInDescription() {
+        DictionaryData dictionaryData = new DictionaryData();
+        dictionaryData.setName(RandomStringUtils.randomAlphanumeric(10))
+                .setDescription("description contains a couple of spaces  " + RandomStringUtils.randomAlphanumeric(100))
+                .setExpectedResult("OK");
+
+        AddDictionary(dictionaryData, "Create dictionary with description containing 2 spaces in a row");
+    }
+
+    @Test
+    public void AddDictionaryWithLineBreakInName() {
         DictionaryData dictionaryData = new DictionaryData();
         dictionaryData.setName("name contains line break\n" + RandomStringUtils.randomAlphanumeric(10))
                 .setDescription(RandomStringUtils.randomAlphanumeric(100))
                 .setExpectedResult("OK");
 
         AddDictionary(dictionaryData, "Create dictionary with name containing line break");
+    }
+
+    @Test
+    public void AddDictionaryWithLineBreakInDescription() {
+        DictionaryData dictionaryData = new DictionaryData();
+        dictionaryData.setName(RandomStringUtils.randomAlphanumeric(10))
+                .setDescription("description containing line break\n" + RandomStringUtils.randomAlphanumeric(100))
+                .setExpectedResult("OK");
+
+        AddDictionary(dictionaryData, "Create dictionary with description containing line break");
+    }
+
+    @Test
+    public void AddDictionaryWithTabCharacterInName() {
+        DictionaryData dictionaryData = new DictionaryData();
+        dictionaryData.setName("name contains tab character\t" + RandomStringUtils.randomAlphanumeric(10))
+                .setDescription(RandomStringUtils.randomAlphanumeric(100))
+                .setExpectedResult("OK");
+
+        AddDictionary(dictionaryData, "Create dictionary with name containing tab character");
+    }
+
+    @Test
+    public void AddDictionaryWithTabCharacterInDescription() {
+        DictionaryData dictionaryData = new DictionaryData();
+        dictionaryData.setName(RandomStringUtils.randomAlphanumeric(10))
+                .setDescription("description contains tab character\t" + RandomStringUtils.randomAlphanumeric(100))
+                .setExpectedResult("OK");
+
+        AddDictionary(dictionaryData, "Create dictionary with description containing tab character");
     }
 
 }

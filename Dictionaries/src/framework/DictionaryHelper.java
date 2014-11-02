@@ -28,8 +28,9 @@ public class DictionaryHelper extends BaseHelper {
 
         for (int page = 1; page <= numberOfPages; ++page) {
             dictionaries.addAll(listDictionaries());
-            if (isElementPresent(By.className("next"))) {
-                scrollAndClick(By.className("next"));
+            manager.wait.until(visibilityOfElementLocated(By.className(locators.getProperty("nextButton"))));
+            if (isElementPresent(By.className(locators.getProperty("nextButton")))) {
+                scrollAndClick(By.className(locators.getProperty("nextButton")));
             }
         }
 
@@ -115,6 +116,7 @@ public class DictionaryHelper extends BaseHelper {
     }
 
     public int getNumberOfPages() {
+        manager.wait.until(visibilityOfElementLocated(By.className(locators.getProperty("pagingsClass"))));
         Boolean isMoreThanOnePage = isElementPresent(By.className(locators.getProperty("pagingsClass")));
 
         if (isMoreThanOnePage) {
@@ -155,7 +157,7 @@ public class DictionaryHelper extends BaseHelper {
         return "";
     }
 
-    public void editNthDictionaryName(int n, String newName) {
+    public String editNthDictionaryName(int n, String newName) {
         String editingElementXPath = String.format(locators.getProperty("editingDictionaryRow"), n);
 
         try {
@@ -166,6 +168,40 @@ public class DictionaryHelper extends BaseHelper {
 
             manager.driver.findElement(By.cssSelector(locators.getProperty("editingDictionaryNameField"))).clear();
             manager.driver.findElement(By.cssSelector(locators.getProperty("editingDictionaryNameField"))).sendKeys(newName);
+            manager.driver.findElement(By.cssSelector(locators.getProperty("editingDictionaryNameField"))).sendKeys(Keys.ENTER);
+
+        } catch (StaleElementReferenceException ex) {
+            editNthDictionaryName(n, newName);
+        }
+
+        if (isElementPresent(By.className(".alerts-container"))) {
+            return getText(By.className(".alerts-container"));
+        } else {
+            return "";
+        }
+    }
+
+    public String editDictionaryDescription(DictionaryData dictionaryData, String newDescription) {
+        int page = goToDictionaryPage(dictionaryData);
+
+        List<DictionaryData> dictionaryDataList = listDictionaries();
+
+        int dictionaryRow = dictionaryDataList.indexOf(dictionaryData) + 1;
+
+        editNthDictionaryDescription(dictionaryRow, newDescription);
+        return "";
+    }
+
+    public void editNthDictionaryDescription(int n, String newDescription) {
+        String editingDescriptionXPath = String.format(locators.getProperty("editingDictionaryDescriptionCell"), n);
+
+        try {
+            manager.wait.until(visibilityOfElementLocated(By.xpath(editingDescriptionXPath)));
+            scrollAndClick(By.xpath(editingDescriptionXPath));
+
+            manager.driver.findElement(By.cssSelector(locators.getProperty("editingDictionaryDescriptionField"))).clear();
+            manager.driver.findElement(By.cssSelector(locators.getProperty("editingDictionaryDescriptionField"))).sendKeys(newDescription);
+            manager.driver.findElement(By.cssSelector(locators.getProperty("editingDictionaryDescriptionField"))).sendKeys(Keys.ENTER);
 
         } catch (StaleElementReferenceException ex) {
             removeNthTopDictionary(n);

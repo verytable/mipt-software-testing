@@ -36,6 +36,7 @@ public class NavigationHelper extends BaseHelper {
     public void goToDictionariesPage() {
         manager.getNavigationHelper().goToGroupsPage();
 
+        //manager.wait.until(visibilityOfElementLocated(By.linkText(manager.baseGroupName)));
         if (isElementPresent(By.linkText(manager.baseGroupName))) {
             assertEquals(isElementPresent(By.linkText(manager.baseGroupName)), true);
             scrollAndClick(By.linkText(manager.baseGroupName));
@@ -46,6 +47,7 @@ public class NavigationHelper extends BaseHelper {
                     .setExpectedResult("OK");
 
             manager.getGroupHelper().createGroup(groupData);
+            goToDictionariesPage();
         }
     }
 }

@@ -36,19 +36,20 @@ public class AppManager {
         switch (browser) {
             case "firefox" :
                 driver = new FirefoxDriver();
+                driver.manage().window().maximize();
                 break;
             case "opera":
                 driver = new OperaDriver();
                 break;
             case "chrome":
-                System.setProperty("webdriver.chrome.driver", "/home/arseny/IdeaProjects/lib/chromedriver");
+                System.setProperty("webdriver.chrome.driver", properties.getProperty("pathToChromedriver"));
                 driver = new ChromeDriver();
+                driver.manage().window().maximize();
                 break;
             default:
                 throw new Exception("Unknown browser");
         }
 
-        //driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS);
         wait = new WebDriverWait(driver, 30);
 
