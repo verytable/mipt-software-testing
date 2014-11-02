@@ -1,9 +1,6 @@
 package framework;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
 import java.io.File;
@@ -32,8 +29,12 @@ public class BaseHelper {
         }
     }
 
-    protected void click(By by) {
-        driver.findElement(by).click();
+    protected void scrollAndClick(By by) {
+        WebElement element = driver.findElement(by);
+        int elementPosition = element.getLocation().getY();
+        String js = String.format("window.scroll(0, %s)", elementPosition - 50);
+        ((JavascriptExecutor)driver).executeScript(js);
+        element.click();
     }
 
     protected void type(By by, String input) {

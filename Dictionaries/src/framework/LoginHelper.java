@@ -16,7 +16,7 @@ public class LoginHelper extends BaseHelper {
         manager.getNavigationHelper().gotoLoginPage();
         type(By.id(locators.getProperty("loginField")), loginData.getLogin());
         type(By.id(locators.getProperty("passwordField")), loginData.getPass());
-        click(By.cssSelector(locators.getProperty("loginButton")));
+        scrollAndClick(By.cssSelector(locators.getProperty("loginButton")));
 
         if (isElementPresent(By.id(locators.getProperty("successLoginConfirmationElement")))) {
             return "OK";

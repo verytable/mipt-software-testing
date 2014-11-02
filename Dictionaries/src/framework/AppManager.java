@@ -1,9 +1,13 @@
 package framework;
 
+import com.opera.core.systems.OperaDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -33,11 +37,18 @@ public class AppManager {
             case "firefox" :
                 driver = new FirefoxDriver();
                 break;
+            case "opera":
+                driver = new OperaDriver();
+                break;
+            case "chrome":
+                System.setProperty("webdriver.chrome.driver", "/home/arseny/IdeaProjects/lib/chromedriver");
+                driver = new ChromeDriver();
+                break;
             default:
                 throw new Exception("Unknown browser");
         }
 
-        driver.manage().window().maximize();
+        //driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS);
         wait = new WebDriverWait(driver, 30);
 

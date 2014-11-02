@@ -7,7 +7,6 @@ import org.openqa.selenium.interactions.Actions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import static org.testng.Assert.assertEquals;
 
@@ -30,7 +29,7 @@ public class DictionaryHelper extends BaseHelper {
         for (int page = 1; page <= numberOfPages; ++page) {
             dictionaries.addAll(listDictionaries());
             if (isElementPresent(By.className("next"))) {
-                click(By.className("next"));
+                scrollAndClick(By.className("next"));
             }
         }
 
@@ -58,13 +57,13 @@ public class DictionaryHelper extends BaseHelper {
 
     public String createDictionary(DictionaryData dictionaryData) {
         manager.wait.until(visibilityOfElementLocated(By.xpath(locators.getProperty("addDictionaryButton"))));
-        click(By.xpath(locators.getProperty("addDictionaryButton")));
+        scrollAndClick(By.xpath(locators.getProperty("addDictionaryButton")));
 
         type(By.id(locators.getProperty("dictionaryAddNameField")), dictionaryData.getName());
         type(By.id(locators.getProperty("dictionaryAddDescriptionField")), dictionaryData.getDescription());
 
         manager.wait.until(visibilityOfElementLocated(By.id(locators.getProperty("createDictionaryButton"))));
-        click(By.id("dictionaries-add-button-submit"));
+        scrollAndClick(By.id("dictionaries-add-button-submit"));
 
         if (isElementPresent(By.id(locators.getProperty("createDictionaryButton")))) {
             manager.wait.until(visibilityOfElementLocated(By.className(locators.getProperty("addDictionaryErrorField"))));
@@ -101,8 +100,8 @@ public class DictionaryHelper extends BaseHelper {
             WebElement deletingElement = manager.wait.until(visibilityOfElementLocated(By.xpath(deletingElementXPath)));
             Actions action = new Actions(driver);
             action.moveToElement(deletingElement).perform();
-            click(By.xpath(String.format(locators.getProperty("deletingDictionaryXSymbol"), n)));
-            click(By.className(locators.getProperty("deletingDictionaryConfirmationButton")));
+            scrollAndClick(By.xpath(String.format(locators.getProperty("deletingDictionaryXSymbol"), n)));
+            scrollAndClick(By.className(locators.getProperty("deletingDictionaryConfirmationButton")));
         } catch (StaleElementReferenceException ex) {
             removeNthTopDictionary(n);
         }
@@ -139,7 +138,7 @@ public class DictionaryHelper extends BaseHelper {
                 return page;
             }
             if (isElementPresent(By.className(locators.getProperty("nextButton")))) {
-                click(By.className(locators.getProperty("nextButton")));
+                scrollAndClick(By.className(locators.getProperty("nextButton")));
             }
         }
         return -1;
@@ -163,7 +162,7 @@ public class DictionaryHelper extends BaseHelper {
             WebElement editingElement = manager.wait.until(visibilityOfElementLocated(By.xpath(editingElementXPath)));
             Actions action = new Actions(driver);
             action.moveToElement(editingElement).perform();
-            click(By.xpath(String.format(locators.getProperty("editingDictionaryPencilSymbol"), n)));
+            scrollAndClick(By.xpath(String.format(locators.getProperty("editingDictionaryPencilSymbol"), n)));
 
             manager.driver.findElement(By.cssSelector(locators.getProperty("editingDictionaryNameField"))).clear();
             manager.driver.findElement(By.cssSelector(locators.getProperty("editingDictionaryNameField"))).sendKeys(newName);

@@ -38,7 +38,7 @@ public class NavigationHelper extends BaseHelper {
 
         if (isElementPresent(By.linkText(manager.baseGroupName))) {
             assertEquals(isElementPresent(By.linkText(manager.baseGroupName)), true);
-            click(By.linkText(manager.baseGroupName));
+            scrollAndClick(By.linkText(manager.baseGroupName));
         } else {
             GroupData groupData = new GroupData();
             groupData.setName(manager.baseGroupName)

@@ -13,10 +13,10 @@ public class GroupHelper extends BaseHelper {
     }
 
     public String createGroup(GroupData groupData) {
-        click(By.cssSelector(locators.getProperty("addGroupButton")));
+        scrollAndClick(By.cssSelector(locators.getProperty("addGroupButton")));
         type(By.id(locators.getProperty("addGroupNameField")), groupData.getName());
         type(By.id(locators.getProperty("addGroupDescriptionField")), groupData.getDescription());
-        click(By.id(locators.getProperty("addGroupProceedButton")));
+        scrollAndClick(By.id(locators.getProperty("addGroupProceedButton")));
 
         return getText(By.id(locators.getProperty("addGroupErrorField")));
     }
