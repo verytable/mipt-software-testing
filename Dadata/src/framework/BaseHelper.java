@@ -42,7 +42,11 @@ public class BaseHelper {
     }
 
     protected String getText(By by) {
-        return driver.findElement(by).getText();
+        if (isElementPresent(by)) {
+            return driver.findElement(by).getText();
+        } else {
+            return "";
+        }
     }
 
     protected boolean isElementPresent(By by) {

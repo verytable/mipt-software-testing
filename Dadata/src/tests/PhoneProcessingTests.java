@@ -31,6 +31,6 @@ public class PhoneProcessingTests extends TestBase {
     public void testProcessingPhoneData(PhoneData phoneData) {
         app.getNavigationHelper().gotoMainPage();
         ResultsOfProcessing resultsOfProcessing = app.getDictionaryHelper().processPhoneNumber(phoneData);
-        assertEquals(resultsOfProcessing, "OK");
+        assertEquals(resultsOfProcessing, phoneData.getExpectedResult());
     }
 }

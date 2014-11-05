@@ -21,11 +21,11 @@ public class PhoneNumberHelper extends BaseHelper {
         ResultsOfProcessing resultsOfProcessing = new ResultsOfProcessing();
         if (isElementPresent(By.id(locators.getProperty("processingResultsTable")))) {
 
-            resultsOfProcessing.setInitialValue(manager.driver.findElement(By.xpath(locators.getProperty("initialValue"))).getText());
-            resultsOfProcessing.setPhoneNumberType(manager.driver.findElement(By.xpath(locators.getProperty("phoneNumberType"))).getText());
-            resultsOfProcessing.setOperator(manager.driver.findElement(By.xpath(locators.getProperty("operator"))).getText());
-            resultsOfProcessing.setRegion(manager.driver.findElement(By.xpath(locators.getProperty("region"))).getText());
-            resultsOfProcessing.setTimeZone(manager.driver.findElement(By.xpath(locators.getProperty("timeZone"))).getText());
+            resultsOfProcessing.setInitialValue(getText(By.xpath(locators.getProperty("initialValue"))));
+            resultsOfProcessing.setPhoneNumberType(getText(By.xpath(locators.getProperty("phoneNumberType"))));
+            resultsOfProcessing.setOperator(getText(By.xpath(locators.getProperty("operator"))));
+            resultsOfProcessing.setRegion(getText(By.xpath(locators.getProperty("region"))));
+            resultsOfProcessing.setTimeZone(getText(By.xpath(locators.getProperty("timeZone"))));
         }
         return resultsOfProcessing;
     }
