@@ -6,11 +6,11 @@ package data;
 public class PhoneData {
 
     private String phoneNumber;
-    private String expectedResult;
+    private ResultsOfProcessing expectedResult;
 
     public PhoneData() {
         phoneNumber = "";
-        expectedResult = "";
+        expectedResult = new ResultsOfProcessing();
     }
 
     public String getPhoneNumber() {
@@ -22,11 +22,11 @@ public class PhoneData {
         return this;
     }
 
-    public String getExpectedResult() {
+    public ResultsOfProcessing getExpectedResult() {
         return expectedResult;
     }
 
-    public PhoneData setExpectedResult(String expectedResult) {
+    public PhoneData setExpectedResult(ResultsOfProcessing expectedResult) {
         this.expectedResult = expectedResult;
         return this;
     }

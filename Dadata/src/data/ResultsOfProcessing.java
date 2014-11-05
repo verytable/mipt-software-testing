@@ -17,19 +17,7 @@ public class ResultsOfProcessing {
         this.operator = "";
         this.region = "";
         this.timeZone = "";
-        this.expectedResult = "";
     }
-
-    public String getExpectedResult() {
-        return expectedResult;
-    }
-
-    public ResultsOfProcessing setExpectedResult(String expectedResult) {
-        this.expectedResult = expectedResult;
-        return this;
-    }
-
-    private String expectedResult;
 
     public String getInitialValue() {
         return initialValue;
@@ -83,7 +71,6 @@ public class ResultsOfProcessing {
 
         ResultsOfProcessing that = (ResultsOfProcessing) o;
 
-        if (!expectedResult.equals(that.expectedResult)) return false;
         if (!initialValue.equals(that.initialValue)) return false;
         if (!operator.equals(that.operator)) return false;
         if (!phoneNumberType.equals(that.phoneNumberType)) return false;
@@ -100,7 +87,6 @@ public class ResultsOfProcessing {
         result = 31 * result + operator.hashCode();
         result = 31 * result + region.hashCode();
         result = 31 * result + timeZone.hashCode();
-        result = 31 * result + expectedResult.hashCode();
         return result;
     }
 
@@ -112,7 +98,6 @@ public class ResultsOfProcessing {
                 ", operator='" + operator + '\'' +
                 ", region='" + region + '\'' +
                 ", timeZone='" + timeZone + '\'' +
-                ", expectedResult='" + expectedResult + '\'' +
                 '}';
     }
 }

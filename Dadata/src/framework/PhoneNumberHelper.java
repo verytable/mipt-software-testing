@@ -26,8 +26,6 @@ public class PhoneNumberHelper extends BaseHelper {
             resultsOfProcessing.setOperator(manager.driver.findElement(By.xpath(locators.getProperty("operator"))).getText());
             resultsOfProcessing.setRegion(manager.driver.findElement(By.xpath(locators.getProperty("region"))).getText());
             resultsOfProcessing.setTimeZone(manager.driver.findElement(By.xpath(locators.getProperty("timeZone"))).getText());
-
-            resultsOfProcessing.setExpectedResult("OK");
         }
         return resultsOfProcessing;
     }

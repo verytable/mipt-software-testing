@@ -6,6 +6,17 @@ package data;
 public class PhoneDataLoader extends CSVDataLoader<PhoneData> {
     @Override
     protected PhoneData generateObject(String[] parts) {
-        return new PhoneData().setPhoneData(parts[0]).setExpectedResult(parts[1]);
+
+        ResultsOfProcessing expectedResult =
+                new ResultsOfProcessing()
+                        .setInitialValue(parts[0])
+                        .setPhoneNumberType(parts[1])
+                        .setOperator(parts[2])
+                        .setRegion(parts[3])
+                        .setTimeZone(parts[4]);
+
+        return new PhoneData()
+                .setPhoneData(expectedResult.getInitialValue())
+                .setExpectedResult(expectedResult);
     }
 }
